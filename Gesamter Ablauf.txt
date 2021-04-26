@@ -1,0 +1,42 @@
+TXT-Dateien 
+
+----Spacy Preprocessing---->
+
+Input: TXT-Dateien
+
+Output: Pickle - Spacy Objects für jede txt-Datei
+
+----NER und Nouns_NE-List---->
+
+Input: Pickle - Spacy Objects
+
+Output1: Pickle - Dictionary NE mit Labels + NE-Noun-Liste
+
+Output2: Pickle - DECOMPOSED Dictionary NE mit Labels + NE-Noun-Liste
+
+----TFIDF----->
+
+Input: Pickle - NE-Dictionary + NE-Noun-Liste
+
+Output:
+CSV-Dateien (index, term, score):
+top10
+all
+DECOMPOSED top10
+DECOMPOSED ALL 
+
+----Keyword Extraction: NER---->
+
+Input: TFIDF-CSV-Files, Pickle - NE-Dictionary + NE-Noun-Liste
+
+Output: Ergebnis-XLSX-Datei, Keyword für PER, LOC, ORG, Rest aus NE-Noun-Liste
+
+----Keyword Extraction: Word Embeddings---->
+
+Input: Ergebnis-XLSX-Datei, Rest aus NE-Noun-Liste
+
+
+
+
+
+---> Scores mit reinnehmen in Endtabelle
