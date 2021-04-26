@@ -1,4 +1,8 @@
-TXT-Dateien 
+PDF-Dateien
+
+----OCR-Layer---->
+
+TXT-Dateien
 
 ----Spacy Preprocessing---->
 
@@ -35,8 +39,4 @@ Output: Ergebnis-XLSX-Datei, Keyword für PER, LOC, ORG, Rest aus NE-Noun-Liste
 
 Input: Ergebnis-XLSX-Datei, Rest aus NE-Noun-Liste
 
-
-
-
-
----> Scores mit reinnehmen in Endtabelle
+Output: Ergänzte Ergebnis-XLSX-Datei
