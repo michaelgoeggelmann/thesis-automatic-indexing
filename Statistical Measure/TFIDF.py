@@ -11,7 +11,7 @@ import pandas as pd
 import os
 import pickle
 
-diclist = pickle.load( open( r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\Pickle\Spacy Nouns_NE\8162_NO-URL_DECOMPOSED_NE_NOUNS_ALL.pickle", "rb" ) )
+diclist = pickle.load( open( r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\Spacy_NE_Spacy_Nouns_DECOMPOSED_NOTFIDF.pickle", "rb" ) )
 
 
 def spacy_tokenizer(tokenlist):
@@ -41,10 +41,10 @@ transformed_documents_as_array = transformed_documents.toarray()
 
 
 # make the output folder if it doesn't already exist
-Path(r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\Textstatistik und Machine Learning\TFIDF\output").mkdir(parents=True, exist_ok=True)
+Path(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\Decomposed TFIDF Ranking").mkdir(parents=True, exist_ok=True)
 
 # construct a list of output file paths using the previous list of text files the relative path for tf_idf_output
-output_filenames = [os.path.join(r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\Textstatistik und Machine Learning\TFIDF\output", str(txt_file) + ".csv") for txt_file in pi_names]
+output_filenames = [os.path.join(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\Decomposed TFIDF Ranking", str(txt_file) + ".csv") for txt_file in pi_names]
 
 
 # loop each item in transformed_documents_as_array, using enumerate to keep track of the current position
