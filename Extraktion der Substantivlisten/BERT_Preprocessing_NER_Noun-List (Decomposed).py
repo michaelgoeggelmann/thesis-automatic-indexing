@@ -21,7 +21,7 @@ import re
 # In[4]:
 
 
-liste = pickle.load( open( r"Flair_NE_Spacy_Nouns_COMPOSED_NOTFIDF.pickle", "rb" ) )
+liste = pickle.load( open( r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\3. TFIDF - BERT (FEHLT)\BERT_NE_Spacy_Nouns_COMPOSED_NOTFIDF.pickle", "rb" ) )
 nlp = spacy.load("de_core_news_lg")
 
 lemmatizer = nlp.vocab.morphology.lemmatizer
@@ -84,13 +84,9 @@ def get_noun_and_ne(doc):
         print("done with " + str(number))
     return all_docs
 
-pickle_out = open(r"Flair_NE_Spacy_Nouns_DECOMPOSED_NOTFIDF.pickle", "wb")
+pickle_out = open(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\3. TFIDF - BERT (FEHLT)\BERT_NE_Spacy_Nouns_DECOMPOSED_NOTFIDF.pickle", "wb")
 pickle.dump(get_noun_and_ne(liste), pickle_out)
 pickle_out.close()
-
-
-# In[ ]:
-
 
 
 

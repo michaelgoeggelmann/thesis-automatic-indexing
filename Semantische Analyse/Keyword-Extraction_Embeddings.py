@@ -81,7 +81,7 @@ for topic in topics:
 
 # Load ToBeVectorized
 
-tbv = pickle.load(open( r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\NER - Keyword Extraction\TEST_tbvectorized_pickle\first10_normal.pickle", "rb" ))
+tbv = pickle.load(open( r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\vectorize_composed.pickle", "rb" ))
 
 for pi in tbv:
     for doc, words in pi.items():
@@ -91,7 +91,7 @@ for pi in tbv:
 # In[13]:
 
 
-os.chdir(r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\NER - Keyword Extraction\TEST_NER_OUTPUT")
+os.chdir(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\MI_Schlagworte_Composed")
 
 for pi in tbv:
     for doc, words in pi.items():
@@ -135,7 +135,7 @@ for pi in tbv:
             output_list.append(output_dic)
         df_output=df_output.append(output_list, ignore_index=True)
         df_output.to_excel(str(doc)+'.xlsx')
-
+    break
 
 
 

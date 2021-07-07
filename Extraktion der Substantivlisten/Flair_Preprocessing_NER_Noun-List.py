@@ -9,11 +9,14 @@ from spacy.lemmatizer import Lemmatizer, ADJ, NOUN, VERB
 import pickle
 import spacy
 import re
-dic = pickle.load( open( r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\Pickle\Spacy Objekte\GC-OK-OBJDIC_Ohne Duplicates.pickle", "rb" ) )
+from flair.data import Sentence
+from flair.models import SequenceTagger
+from segtok.segmenter import split_single
+dic = pickle.load( open( r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\PI.pickle", "rb" ) )
 nlp = spacy.load("de_core_news_lg")
 regex = "(ftp:\/\/|www\.|https?:\/\/){1}[a-zA-Z0-9u00a1-\uffff0-]{2,}\.[a-zA-Z0-9u00a1-\uffff0-]{2,}(\S*)"
-
-
+tagger = SequenceTagger.load("flair/ner-german-large")
+remove_paranthesis = str.maketrans({"(":None, ")":None})
 lemmatizer = nlp.vocab.morphology.lemmatizer
 
 
@@ -26,14 +29,19 @@ def get_noun_and_ne(doc):
         ents_dic = {}
         docdic_value = []
         #get all NE for this document
-        for entities in doc[pi].ents:
-            # without URLs
-            if re.match(regex, entities.text):
-                continue
-            else:
-                # add them to the NE_Nouns-List and to a dictionary as key, with its label as value 
-                ents_dic[lemmatizer(entities.text, NOUN)[0]] = entities.label_
-                nouns_and_ents.append(lemmatizer(entities.text, NOUN)[0])
+        sentences = [Sentence(sent, use_tokenizer=True) for sent in split_single(dic[pi].text)]
+        tagger.predict(sentences)
+        #jeder Satz
+        for sent in sentences:
+            sent_dic = sent.to_dict("ner")
+            #jeder Eintrag in diesem Satz
+            for entry in sent_dic["entities"]:
+                ne = entry["text"].capitalize()
+                label = str(entry["labels"][0]).split()[0]
+                confidence = float(str(str((entry["labels"][0])).split()[1].translate(remove_paranthesis)))
+                if confidence > 0.7:
+                    ents_dic[lemmatizer(ne, NOUN)[0]] = label
+                    nouns_and_ents.append(ne)
         #get all nouns for this document 
         for possible_nouns in doc[pi]:
             # without URLs
@@ -51,8 +59,6 @@ def get_noun_and_ne(doc):
     return all_docs
 
 
-
-
-pickle_out = open(r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Daten\Presseinfos\NE_NOUNS_ALL.pickle", "wb")
+pickle_out = open(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\2. TFIDF - FLAIR\NE_Nouns_COMPOSED_NOTFIDF.pickle", "wb")
 pickle.dump(get_noun_and_ne(dic), pickle_out)
 pickle_out.close()

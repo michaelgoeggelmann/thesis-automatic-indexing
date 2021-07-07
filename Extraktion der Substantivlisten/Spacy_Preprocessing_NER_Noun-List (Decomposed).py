@@ -11,7 +11,7 @@ import spacy
 from charsplit import Splitter
 import re
 regex = "(ftp:\/\/|www\.|https?:\/\/){1}[a-zA-Z0-9u00a1-\uffff0-]{2,}\.[a-zA-Z0-9u00a1-\uffff0-]{2,}(\S*)"
-dic = pickle.load( open( r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Code\Pickle\Spacy Objekte\GC-OK-OBJDIC_Ohne Duplicates.pickle", "rb" ) )
+dic = pickle.load( open( r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\PI.pickle", "rb" ) )
 nlp = spacy.load("de_core_news_lg")
 
 lemmatizer = nlp.vocab.morphology.lemmatizer
@@ -31,7 +31,7 @@ def get_noun_and_ne(doc):
             if re.match(regex, entities.text):
                 continue
             else:
-                lemmatized = lemmatizer(entities.text, NOUN)[0]
+                lemmatized = lemmatizer(entities.text.capitalize(), NOUN)[0]
                 #add lemmatized NE and his tag in the dictionary
                 ents_dic[lemmatized] = entities.label_
                 #add lemmatized NE to NE_Nouns-List
@@ -41,23 +41,23 @@ def get_noun_and_ne(doc):
                 #add those entities with more than one token separated to the NE_Nouns-List and if its possible to decompose them. If so, add them too.
                 if len(splitted_entities) > 1:
                     for ent in splitted_entities:
-                            lemmatized_ent = lemmatizer(ent, NOUN)[0]
+                            lemmatized_ent = lemmatizer(ent.capitalize(), NOUN)[0]
                             #add lemmatized part to NE_Nouns-List
                             nouns_and_ents.append(lemmatized_ent)
                             #if possible, add decomposed components to NE_Nouns-List
                             if splitter.split_compound(lemmatized_ent)[0][0] >= 0.9:
                                 decomposed_word_tuple = splitter.split_compound(str(lemmatized_ent))[0][1:]
                                 for splitted_word in decomposed_word_tuple:
-                                    nouns_and_ents.append(lemmatizer(splitted_word, NOUN)[0])
+                                    nouns_and_ents.append(lemmatizer(splitted_word.capitalize(), NOUN)[0])
                 #if there was no split on whitespace, just check if decomposing is possible without adding itself to NE_Noun-List
                 else:
                     for ent in splitted_entities:
-                            lemmatized_ent = lemmatizer(ent, NOUN)[0]
+                            lemmatized_ent = lemmatizer(ent.capitalize(), NOUN)[0]
                             #if possible, add decomposed components to NE_Nouns-List
                             if splitter.split_compound(lemmatized_ent)[0][0] >= 0.9:
                                 decomposed_word_tuple = splitter.split_compound(str(lemmatized_ent))[0][1:]
                                 for splitted_word in decomposed_word_tuple:
-                                    nouns_and_ents.append(lemmatizer(splitted_word, NOUN)[0])
+                                    nouns_and_ents.append(lemmatizer(splitted_word.capitalize(), NOUN)[0])
         #get all nouns for this document 
         for possible_nouns in doc[pi]:
             #check the token for its pos-tag "noun"
@@ -72,7 +72,7 @@ def get_noun_and_ne(doc):
                     if splitter.split_compound(possible_nouns.lemma_)[0][0] >= 0.9:
                         decomposed_word_tuple = splitter.split_compound(str(possible_nouns))[0][1:]
                         for splitted_word in decomposed_word_tuple:
-                            nouns_and_ents.append(lemmatizer(splitted_word, NOUN)[0])
+                            nouns_and_ents.append(lemmatizer(splitted_word.capitalize(), NOUN)[0])
         docdic_value.append(nouns_and_ents)
         docdic_value.append(ents_dic)
         document[pi]=docdic_value
@@ -82,6 +82,7 @@ def get_noun_and_ne(doc):
     return all_docs
 
 
-pickle_out = open(r"C:\Users\Goegg\OneDrive\Dokumente\Uni\Master\Masterarbeit\Daten\Presseinfos\DECOMPOSED_NE_NOUNS_ALL.pickle", "wb")
+
+pickle_out = open(r"C:\Users\Goegg\OneDrive\Desktop\Durchgänge\1. TFIDF - SPACY NE\NE_Nouns_DECOMPOSED_NOTFIDF.pickle", "wb")
 pickle.dump(get_noun_and_ne(dic), pickle_out)
 pickle_out.close()
