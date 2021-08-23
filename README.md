@@ -1,4 +1,4 @@
-# thesis-auomatic-indexing
+# thesis-automatic-indexing
 A hybrid approach to automatic keyword extraction from press information
 
 
